@@ -1,4 +1,4 @@
-import { Star, Clock, Users, TrendingUp } from 'lucide-react';
+import { Star, Clock, Users, TrendingUp, Award } from 'lucide-react';
 import { Course } from '../lib/supabase';
 
 type CourseCardProps = {
@@ -48,8 +48,8 @@ export function CourseCard({ course, onClick }: CourseCardProps) {
 
         <div className="flex items-center gap-2 mb-4">
           <img
-            src={course.instructor_image}
-            alt={course.instructor_name}
+            src="/main.jpeg"
+            alt="structure"
             className="w-8 h-8 rounded-full object-cover border-2 border-indigo-100"
           />
           <span className="text-sm text-slate-700 font-medium">
@@ -74,12 +74,13 @@ export function CourseCard({ course, onClick }: CourseCardProps) {
             <span className="font-bold text-slate-900">{course.rating}</span>
             <span className="text-slate-500 text-sm">/5</span>
           </div>
-          <div className="text-right">
-            <div className="text-2xl font-bold text-indigo-600">
-              ${course.price}
-            </div>
+          <div className="flex items-center gap-1.5">
+            <Award size={18} className="text-indigo-500" />
+            <span className="text-sm text-slate-700 font-medium">Certificate</span>
           </div>
         </div>
+
+
       </div>
 
       <div className="absolute inset-0 border-2 border-transparent group-hover:border-indigo-300 rounded-2xl transition-colors duration-500 pointer-events-none" />

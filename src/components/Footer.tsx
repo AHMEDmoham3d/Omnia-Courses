@@ -37,22 +37,20 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">All Courses</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Featured</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Instructors</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Become Instructor</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Pricing</a></li>
+              <li><a href="#home" className="text-slate-300 hover:text-white transition-colors duration-200">Home</a></li>
+              <li><a href="#about" className="text-slate-300 hover:text-white transition-colors duration-200">About</a></li>
+              <li><a href="#services" className="text-slate-300 hover:text-white transition-colors duration-200">Services</a></li>
+              <li><a href="#contact" className="text-slate-300 hover:text-white transition-colors duration-200">Contact</a></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-lg font-bold mb-4">Categories</h3>
+            <h3 className="text-lg font-bold mb-4">Services</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Energy Healing</a></li>
               <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Tarot Reading</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Crystal Healing</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Astrology</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Reiki</a></li>
+              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Therapy sound</a></li>
+              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">Healing Sessions</a></li>
+              <li><a href="#" className="text-slate-300 hover:text-white transition-colors duration-200">course Meditation</a></li>
             </ul>
           </div>
 
@@ -77,12 +75,15 @@ export function Footer() {
 
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
-            <p>&copy; 2025 Omnia Academy. All rights reserved.</p>
+            <p>&copy; 2025 Omnia. All rights reserved. Made with <span className="text-red-500">♥</span> for Beautiful souls.</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</a>
               <a href="#" className="hover:text-white transition-colors duration-200">Terms of Service</a>
               <a href="#" className="hover:text-white transition-colors duration-200">Cookie Policy</a>
             </div>
+          </div>
+          <div className="text-center mt-4 text-xs text-slate-500">
+            SSL Secured & Privacy Protected
           </div>
         </div>
       </div>

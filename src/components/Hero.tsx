@@ -92,15 +92,14 @@ const Hero = () => {
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <div className="mb-8 relative">
           {/* Logo Container - Positioned slightly lower */}
-          <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 w-24 h-24 flex items-center justify-center">
+          <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-24 h-24 flex items-center justify-center">
             <div className="relative w-full h-full">
-              <img 
-                src="/BEYOND HILIST.png" 
+              <img
+                src="/BEYONDHILIST.png"
                 alt="Beyond Holistic Logo"
-                className="w-full h-full object-contain rounded-full bg-white/5 p-1 border border-purple-400/30"
+                className="w-full h-full object-contain"
                 loading="eager"
               />
-              <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-purple-400/40 border-r-pink-400/40 animate-spin-slow pointer-events-none"></div>
             </div>
           </div>
           

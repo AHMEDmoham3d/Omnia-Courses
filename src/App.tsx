@@ -6,16 +6,20 @@ import { CourseCard } from './components/CourseCard';
 import { CourseDetails } from './components/CourseDetails';
 import { Footer } from './components/Footer';
 import { Particles } from './components/Particles';
+import { LoginPage } from './components/LoginPage';
 import { Course } from './lib/supabase';
 import { Loader2 } from 'lucide-react';
+import { supabase } from './lib/supabase';
 
 function App() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm] = useState('');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const mockCourses: Course[] = [
     {
@@ -45,8 +49,8 @@ function App() {
       price: 59.99,
       duration: "6 hours",
       level: "Intermediate",
-      image_url: "https://images.unsplash.com/photo-1578631610676-7e006a85c5c9?w=800&h=600&fit=crop",
-      instructor_name: "Mystic Aria Thorne",
+      image_url: "/card.jpeg",
+      instructor_name: "Omnia Abdo",
       instructor_bio: "Professional Tarot reader and spiritual counselor.",
       instructor_image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
       category: "Tarot",
@@ -64,8 +68,8 @@ function App() {
       price: 39.99,
       duration: "3 hours",
       level: "Beginner",
-      image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop",
-      instructor_name: "Healing Master Luna",
+      image_url: "/heal.jpg",
+      instructor_name: "Omnia Abdo",
       instructor_bio: "Certified crystal healer and Reiki practitioner.",
       instructor_image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
       category: "Healing",
@@ -78,9 +82,27 @@ function App() {
   ];
 
   useEffect(() => {
-    setCourses(mockCourses);
-    setLoading(false);
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsLoggedIn(!!user);
+      setAuthLoading(false);
+    };
+
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session?.user);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setCourses(mockCourses);
+      setLoading(false);
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     filterCourses();
@@ -104,7 +126,26 @@ function App() {
     setFilteredCourses(filtered);
   };
 
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+  };
+
   const categories = ['All', ...Array.from(new Set(courses.map(course => course.category)))];
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="animate-spin text-white mx-auto mb-4" size={48} />
+          <p className="text-white">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 relative overflow-hidden">
@@ -114,7 +155,7 @@ function App() {
         <div className="absolute top-40 right-20 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
         <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
       </div>
-      <Header />
+      <Header onLogout={() => setIsLoggedIn(false)} />
       <Hero />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

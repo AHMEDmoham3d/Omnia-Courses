@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { X, Star, Clock, Users, Award, PlayCircle, CheckCircle, BookOpen } from 'lucide-react';
 import { Course } from '../lib/supabase';
 
@@ -7,6 +8,8 @@ type CourseDetailsProps = {
 };
 
 export function CourseDetails({ course, onClose }: CourseDetailsProps) {
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
   const features = [
     'Lifetime access to course materials',
     'Certificate of completion',
@@ -98,7 +101,22 @@ export function CourseDetails({ course, onClose }: CourseDetailsProps) {
                   Course Curriculum
                 </h3>
                 <div className="space-y-3">
-                  {[1, 2, 3, 4].map((module) => (
+                  <div className="border border-slate-200 rounded-xl p-4 hover:border-indigo-300 transition-colors duration-200">
+                    <div
+                      className="flex items-center gap-3 cursor-pointer"
+                      onClick={() => course.title === "Whispers of the pendulum" && setShowVideoModal(true)}
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                        1
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-slate-900">Introduction to Pendulum Dowsing</h4>
+                        <p className="text-sm text-slate-600">1 lesson • 10 minutes</p>
+                      </div>
+                      <PlayCircle className="text-indigo-600" size={24} />
+                    </div>
+                  </div>
+                  {[2, 3, 4].map((module) => (
                     <div key={module} className="border border-slate-200 rounded-xl p-4 hover:border-indigo-300 transition-colors duration-200">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
@@ -119,8 +137,8 @@ export function CourseDetails({ course, onClose }: CourseDetailsProps) {
                 <h3 className="text-2xl font-bold text-slate-900 mb-4">Your Instructor</h3>
                 <div className="flex items-start gap-4 p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl">
                   <img
-                    src={course.instructor_image}
-                    alt={course.instructor_name}
+                    src="/main.jpeg"
+                    alt="structure"
                     className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg"
                   />
                   <div>
@@ -135,16 +153,16 @@ export function CourseDetails({ course, onClose }: CourseDetailsProps) {
               <div className="sticky top-24">
                 <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-8 text-white shadow-2xl">
                   <div className="text-center mb-6">
-                    <div className="text-5xl font-bold mb-2">${course.price}</div>
-                    <p className="text-indigo-100">One-time payment</p>
+                    <div className="text-2xl font-bold mb-2">Available Now</div>
+                    <p className="text-indigo-100">Start learning today</p>
                   </div>
 
                   <button className="w-full bg-white text-indigo-600 font-bold py-4 rounded-xl hover:bg-indigo-50 transition-all duration-200 transform hover:scale-105 shadow-lg mb-4">
-                    Enroll Now
+                    Start Learning
                   </button>
 
                   <button className="w-full border-2 border-white text-white font-semibold py-3 rounded-xl hover:bg-white/10 transition-colors duration-200 mb-6">
-                    Add to Wishlist
+                    Save for Later
                   </button>
 
                   <div className="space-y-4 pt-6 border-t border-white/20">
@@ -183,6 +201,38 @@ export function CourseDetails({ course, onClose }: CourseDetailsProps) {
           </div>
         </div>
       </div>
+
+      {showVideoModal && (
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl transform scale-100 transition-all duration-300 relative">
+            <div className="absolute top-6 right-6 z-10">
+              <button
+                onClick={() => setShowVideoModal(false)}
+                className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-all duration-200 shadow-lg"
+              >
+                <X size={24} className="text-white" />
+              </button>
+            </div>
+            <div className="p-8 pt-16">
+              <div className="text-center mb-8">
+                <h3 className="text-3xl font-bold text-slate-900 mb-3">Introduction to Pendulum Dowsing</h3>
+                <p className="text-slate-600 text-lg">Lesson 1 • 10 minutes</p>
+              </div>
+              <div className="relative bg-slate-900 rounded-2xl overflow-hidden shadow-2xl">
+                <video controls className="w-full aspect-video" autoPlay>
+                  <source src="/intro-pandol.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div className="mt-8 text-center">
+                <p className="text-slate-600">
+                  Watch this introductory lesson to begin your journey into pendulum dowsing
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

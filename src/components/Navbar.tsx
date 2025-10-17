@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X, Sparkles, LogOut } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
-const Header = () => {
+interface HeaderProps {
+  onLogout?: () => void;
+}
+
+const Header = ({ onLogout }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -19,9 +24,16 @@ const Header = () => {
     { name: 'About', href: '#about' },
     { name: 'Services', href: '#services' },
     { name: 'Contact', href: '#contact' },
-    { name: 'Blog', href: '/blog.html' }, 
-    { name: 'Courses', action: () => setShowModal(true) }
+    { name: 'Blog', href: '/blog.html' },
+    { name: 'Courses', href: '#courses' }
   ];
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    if (onLogout) {
+      onLogout();
+    }
+  };
 
   return (
     <header
@@ -37,34 +49,32 @@ const Header = () => {
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-ping"></div>
           </div>
           <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Omnia Abdo
+            Omnia Courses
           </span>
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
-          {navItems.map((item) =>
-            item.action ? (
-              <button
-                key={item.name}
-                onClick={item.action}
-                className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium relative group"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
-              </button>
-            ) : (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium relative group"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
-              </a>
-            )
-          )}
+          {navItems.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium relative group"
+            >
+              {item.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
+            </a>
+          ))}
         </nav>
+
+        {/* Sign Out Button */}
+        <button
+          onClick={handleLogout}
+          className="hidden md:flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          <LogOut size={16} />
+          Sign Out
+        </button>
 
         {/* Mobile Menu Button */}
         <button
@@ -79,29 +89,26 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden mt-2 pb-4 border-t border-gray-700">
           <nav className="flex flex-col space-y-4 pt-4 px-4">
-            {navItems.map((item) =>
-              item.action ? (
-                <button
-                  key={item.name}
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    item.action();
-                  }}
-                  className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium text-left"
-                >
-                  {item.name}
-                </button>
-              ) : (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              )
-            )}
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.name}
+              </a>
+            ))}
+            <button
+              onClick={() => {
+                setIsMenuOpen(false);
+                handleLogout();
+              }}
+              className="text-indigo-400 hover:text-indigo-300 transition-colors duration-300 font-medium text-left flex items-center gap-2"
+            >
+              <LogOut size={16} />
+              Sign Out
+            </button>
           </nav>
         </div>
       )}
