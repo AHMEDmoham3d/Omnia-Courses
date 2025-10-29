@@ -48,7 +48,7 @@ export function CourseCard({ course, onClick }: CourseCardProps) {
 
         <div className="flex items-center gap-2 mb-4">
           <img
-            src="/public/main.jpeg"
+            src="/main.jpeg"
             alt="structure"
             className="w-8 h-8 rounded-full object-cover border-2 border-indigo-100"
           />
