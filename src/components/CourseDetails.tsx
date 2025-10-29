@@ -137,7 +137,7 @@ export function CourseDetails({ course, onClose }: CourseDetailsProps) {
                 <h3 className="text-2xl font-bold text-slate-900 mb-4">Your Instructor</h3>
                 <div className="flex items-start gap-4 p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl">
                   <img
-                    src="/main.jpeg"
+                    src="/public/main.jpeg"
                     alt="structure"
                     className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg"
                   />
@@ -220,7 +220,7 @@ export function CourseDetails({ course, onClose }: CourseDetailsProps) {
               </div>
               <div className="relative bg-slate-900 rounded-2xl overflow-hidden shadow-2xl">
                 <video controls className="w-full aspect-video" autoPlay>
-                  <source src="/intro-pandol.mp4" type="video/mp4" />
+                  <source src="/public/intro-pandol.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>
